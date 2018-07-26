@@ -63,6 +63,8 @@ WORKDIR /modeldb/server
 RUN ../scripts/gen_thrift_file.sh java '../thrift/ModelDB.thrift' './src/main/thrift/' && \
     mvn clean compile -Dthrift_version=0.10.0
 
+RUN mvn package -Dthrift_version=0.10.0 -Dmaven.test.skip=true
+
 # This would be better as an ENTRYPOINT with 'mongo' the CMD param, but
 # `exec mvn exec:java ...` leads to a classpath issue that isn't immediately
 # clear how to handle.
