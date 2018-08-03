@@ -6,6 +6,7 @@ import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 import edu.mit.csail.db.ml.server.storage.metadata.MongoMetadataDb;
 import edu.mit.csail.db.ml.server.storage.metadata.MetadataDb;
+import java.sql.* ;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -15,6 +16,14 @@ import java.util.Optional;
  * This class contains logic for connecting to the database.
  */
 public class ContextFactory {
+  static {
+    try {
+      Class.forName("org.sqlite.JDBC");
+    } catch (ClassNotFoundException e){
+      e.printStackTrace();
+    }
+  }
+
   /**
    * Create a database context that reflects a connection to a database.
    * @param username - The username to connect to the database.
@@ -25,13 +34,19 @@ public class ContextFactory {
    * @throws SQLException - Thrown if there are problems connecting to the database.
    * @throws IllegalArgumentException - Thrown if the dbType is unsupported.
    */
+
+
+
   public static DSLContext create(
     String username, 
     String password, 
     String jdbcUrl, 
     ModelDbConfig.DatabaseType dbType
     ) throws SQLException, IllegalArgumentException {
+
+
     Connection conn = DriverManager.getConnection(jdbcUrl, username, password);
+
 
     switch (dbType) {
       case SQLITE: return DSL.using(conn, SQLDialect.SQLITE);
