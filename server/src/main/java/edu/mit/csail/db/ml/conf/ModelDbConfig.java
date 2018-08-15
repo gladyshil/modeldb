@@ -89,10 +89,6 @@ public class ModelDbConfig {
    */
   public final String metadataDbName;
 
-  public final String metadataDbUsername;
-
-  public final String metadataDbPassword;
-
   /**
    * If set, the username to use when connecting to the metadataDb.
    */
