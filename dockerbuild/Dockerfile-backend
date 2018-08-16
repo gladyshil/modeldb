@@ -1,5 +1,6 @@
 FROM openjdk:8 as builder
 
+ARG THRIFT_VERSION=0.10.0
  
 # Maven installs openjdk-7 as the default Java. update-alternatives points java back to 8.
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6 && \
@@ -63,16 +64,14 @@ WORKDIR /modeldb/server
 RUN ../scripts/gen_thrift_file.sh java '../thrift/ModelDB.thrift' './src/main/thrift/' && \
     mvn clean compile -Dthrift_version=0.10.0
 
-RUN mvn install dependency:copy-dependencies  -Dthrift_version=0.10.0 -Dmaven.test.skip=true
+#fetch and cache dependencies
+RUN mvn install dependency:copy-dependencies  -Dthrift_version=${THRIFT_VERSION} -Dmaven.test.skip=true
 
-RUN mvn package -Dthrift_version=0.10.0 -Dmaven.test.skip=true
-
+RUN mvn package -Dthrift_version=${THRIFT_VERSION} -Dmaven.test.skip=true
 
 FROM openjdk:8
 
 WORKDIR /modedlb/server
-
-
 
 EXPOSE 6543
 
@@ -88,7 +87,8 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14
     apt-get update && \
     apt-get install -y \
         sqlite \
-        mongodb-org-shell
+        mongodb-org-shell &&\
+    apt-get clean
 
 WORKDIR /modeldb/server/codegen
 
