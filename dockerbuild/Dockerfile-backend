@@ -64,8 +64,6 @@ WORKDIR /modeldb/server
 RUN ../scripts/gen_thrift_file.sh java '../thrift/ModelDB.thrift' './src/main/thrift/' && \
     mvn clean compile -Dthrift_version=0.10.0
 
-#fetch and cache dependencies
-RUN mvn install dependency:copy-dependencies  -Dthrift_version=${THRIFT_VERSION} -Dmaven.test.skip=true
 
 RUN mvn package -Dthrift_version=${THRIFT_VERSION} -Dmaven.test.skip=true
 
