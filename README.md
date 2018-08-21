@@ -68,7 +68,14 @@ If you have [Docker Compose](https://docs.docker.com/compose/install/) installed
     cd [path_to_modeldb]
     docker-compose up
     ```
-Note by default ModelDB will listen on localhost:3000.     
+Note by default ModelDB will listen on localhost:3000.
+
+### Kubernetes Setup
+
+If you have [Kubernetes](https://kubernetes.io/docs/tasks/tools/install-kubectl/) installed, a Modeldb server can be created and shared.
+*To run Modeldb with Kubernetes see [detailed instructions](k8s/README.md).*
+  
+     
 ### Manual Setup
 
 Watch a video of the setup and installation process [here](https://youtu.be/rmNnG3-bd6s).

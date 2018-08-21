@@ -1,0 +1,18 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: mypod
+spec:
+  containers: 
+     - name: test
+       image: nginx
+       command: 
+       - /bin/sh
+       args: ["-c", "while true; do sleep 10000; done"]
+       volumeMounts: 
+       - name: thevol
+         mountPath: /thevol 
+  volumes:
+     - name: thevol
+       persistentVolumeClaim:
+        claimName: theclaim 
