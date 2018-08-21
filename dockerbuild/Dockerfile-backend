@@ -1,5 +1,7 @@
 FROM openjdk:8
 
+ARG THRIFT_VERSION=0.10.0
+
 EXPOSE 6543
  
 # Maven installs openjdk-7 as the default Java. update-alternatives points java back to 8.
@@ -59,6 +61,10 @@ RUN rm -rf jars/ && \
     chmod a+wrx ../modeldb_test.db
 
 WORKDIR /modeldb/server
+
+
+#fetch and cache dependencies
+RUN mvn install dependency:copy-dependencies  -Dthrift_version=${THRIFT_VERSION} -Dmaven.test.skip=true
 
 RUN ../scripts/gen_thrift_file.sh java '../thrift/ModelDB.thrift' './src/main/thrift/' && \
     mvn clean compile -Dthrift_version=0.10.0
