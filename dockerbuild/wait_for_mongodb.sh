@@ -14,14 +14,14 @@ until mongo "$host"/foo --eval "db.getCollectionNames()" > /dev/null 2>&1; do
     >&2 echo "MongoDB is unavailable - sleeping"
     sleep 1
 done
-
 >&2 echo "MongoDB is up - executing command"
+
 
 # Substitute the desired MongoDB hostname in the built project's conf file.
 before="$PWD"
-cd /modeldb/server
-cp src/main/resources/reference-docker.conf target/classes/reference.conf
-sed -i "s/MONGODB_HOST/$host/" target/classes/reference.conf
+
+cd /modeldb/server/codegen
+sed -i "s/MONGODB_HOST/$host/" /modeldb/reference.conf
 cd "$before"
 
-exec mvn exec:java -Dexec.mainClass='edu.mit.csail.db.ml.main.Main' -Dthrift_version=$thrift_version
+java -Dconfig.file=/modeldb/reference.conf  -jar /modeldb/modeldb.jar
