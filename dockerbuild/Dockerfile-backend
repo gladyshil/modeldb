@@ -37,8 +37,7 @@ RUN wget -q http://archive.apache.org/dist/thrift/0.10.0/thrift-0.10.0.tar.gz &&
     make && \
     ln -n ~/thrift-0.10.0/compiler/cpp/thrift /usr/local/bin/thrift
 
-# Add ModelDB project
-ADD . /modeldb
+COPY server/codegen /modeldb/server/codegen
 
 WORKDIR /modeldb/server/codegen
 
@@ -62,15 +61,17 @@ RUN rm -rf jars/ && \
 
 WORKDIR /modeldb/server
 
+# Add ModelDB project
+ADD . /modeldb
 
-#fetch and cache dependencies
+# Fetch and cache dependencies.
 RUN mvn install dependency:copy-dependencies  -Dthrift_version=${THRIFT_VERSION} -Dmaven.test.skip=true
 
 RUN ../scripts/gen_thrift_file.sh java '../thrift/ModelDB.thrift' './src/main/thrift/' && \
-    mvn clean compile -Dthrift_version=0.10.0
+    mvn clean compile -Dthrift_version=${THRIFT_VERSION}
 
 # This would be better as an ENTRYPOINT with 'mongo' the CMD param, but
 # `exec mvn exec:java ...` leads to a classpath issue that isn't immediately
 # clear how to handle.
-ENTRYPOINT ["/modeldb/dockerbuild/wait_for_mongodb.sh", "0.10.0"]
+ENTRYPOINT ["/modeldb/dockerbuild/wait_for_mongodb.sh", "${THRIFT_VERSION}"]
 CMD ["mongo"]
