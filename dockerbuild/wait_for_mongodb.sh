@@ -8,9 +8,12 @@ set -e
 thrift_version="$1"
 host="$2"
 
-#export PASSWORD=$(< /mongo/mongodb-password)
+# export PASSWORD=$(< /mongo/mongodb-password)
 
-until pgrep mongod > /dev/null 2>&1; do
+# 'foo' doesn't matter here. Just needs something so that $host is interpreted
+# as a hostname and not a database name.
+# this is checking if the backend is connected to the mongo server. 
+until mongo "$host"/foo --eval "db.getCollectionNames()" > /dev/null 2>&1; do
     >&2 echo "MongoDB is unavailable - sleeping"
     sleep 1
 done
