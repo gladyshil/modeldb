@@ -8,7 +8,7 @@ set -e
 thrift_version="$1"
 host="$2"
 
-# export PASSWORD=$(< /mongo/mongodb-password)
+# export MONGO_PASSWORD=$(< /mongo/mongodb-password)
 
 # 'foo' doesn't matter here. Just needs something so that $host is interpreted
 # as a hostname and not a database name.
