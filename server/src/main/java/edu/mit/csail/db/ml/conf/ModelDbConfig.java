@@ -171,7 +171,6 @@ public class ModelDbConfig {
     return config.getString(String.format("modeldb.%s", key));
   }
 
-
   /**
    * Read the key "modeldb.[keyname]" from the given configuration object, if it exists.
    * @param config - The configuration object.
@@ -186,7 +185,6 @@ public class ModelDbConfig {
       return Optional.empty();
     }
   }
-
 
   /**
    * Parse command line arguments and create the singleton ModelDbConfig object.

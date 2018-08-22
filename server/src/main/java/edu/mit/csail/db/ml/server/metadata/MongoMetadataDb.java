@@ -30,7 +30,6 @@ public class MongoMetadataDb implements MetadataDb {
   public static final String COLLECTION_NAME = "model_metadata";
   public static final String MODELID_KEY = "MODELDB_model_id";
 
-
   public MongoMetadataDb(String host, int port, Optional<String> username,
       Optional<String> password, String dbName) {
     this.host = host;
@@ -195,4 +194,3 @@ public class MongoMetadataDb implements MetadataDb {
     return false;
   }
 }
-

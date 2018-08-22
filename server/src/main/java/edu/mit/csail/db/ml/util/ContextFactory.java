@@ -11,18 +11,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Optional;
 
-
 /**
  * This class contains logic for connecting to the database.
  */
 public class ContextFactory {
- static {
-    try {
-      Class.forName("org.sqlite.JDBC");
-    } catch (ClassNotFoundException e){
-      e.printStackTrace();
-    }
-  }
 
   /**
    * Create a database context that reflects a connection to a database.

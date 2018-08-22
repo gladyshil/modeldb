@@ -8,7 +8,7 @@ set -e
 thrift_version="$1"
 host="$2"
 
-export PASSWORD=$(< /mongo/mongodb-password)
+#export PASSWORD=$(< /mongo/mongodb-password)
 
 until pgrep mongod > /dev/null 2>&1; do
     >&2 echo "MongoDB is unavailable - sleeping"
