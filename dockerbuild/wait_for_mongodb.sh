@@ -14,12 +14,11 @@ until mongo "$host"/foo --eval "db.getCollectionNames()" > /dev/null 2>&1; do
     >&2 echo "MongoDB is unavailable - sleeping"
     sleep 1
 done
+
 >&2 echo "MongoDB is up - executing command"
 
-
 # Substitute the desired MongoDB hostname in the built project's conf file.
-before="$PWD"
 sed -i "s/MONGODB_HOST/$host/" /modeldb/reference.conf
-cd "$before"
+
 
 java -Dconfig.file=/modeldb/reference.conf  -jar /modeldb/modeldb.jar
