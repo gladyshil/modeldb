@@ -29,13 +29,13 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14
 
 WORKDIR /root
 
-# Install Thrift 0.10.0
-RUN wget -q http://archive.apache.org/dist/thrift/0.10.0/thrift-0.10.0.tar.gz && \
-    tar -xzf thrift-0.10.0.tar.gz && \
-    cd thrift-0.10.0 && \
+# Install Thrift THRIFT_VERSION
+RUN wget -q http://archive.apache.org/dist/thrift/0.10.0/thrift-${THRIFT_VERSION}.tar.gz && \
+    tar -xzf thrift-${THRIFT_VERSION}.tar.gz && \
+    cd thrift-${THRIFT_VERSION} && \
     ./configure --without-python && \
     make && \
-    ln -n ~/thrift-0.10.0/compiler/cpp/thrift /usr/local/bin/thrift
+    ln -n ~/thrift-${THRIFT_VERSION}/compiler/cpp/thrift /usr/local/bin/thrift
 
 COPY server/codegen /modeldb/server/codegen
 
@@ -61,7 +61,7 @@ RUN rm -rf jars/ && \
 
 WORKDIR /modeldb/server
 
-# Add ModelDB project
+# Add ModelDB project.
 ADD . /modeldb
 
 # Fetch and cache dependencies.
