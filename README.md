@@ -73,6 +73,7 @@ Note by default ModelDB will listen on localhost:3000.
 ### Kubernetes Setup
 
 If you have [Kubernetes](https://kubernetes.io/docs/tasks/tools/install-kubectl/) installed, a Modeldb server can be created and shared.
+
 *To run Modeldb with Kubernetes see [detailed instructions](k8s/README.md).*
   
      
