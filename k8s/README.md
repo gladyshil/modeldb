@@ -33,6 +33,7 @@ Within the container:
 If the `modeldb.db` and `modeldb_test.db` files have been added to our container, then the files have been added to our persistent volume claim and we are good to go! Exit the pod with the `exit` command.
 
 3. **Create the Mongo Server**
+
 We also need to set up our mongo server with kubernetes. 
 
   ```bash
@@ -42,6 +43,7 @@ We also need to set up our mongo server with kubernetes.
 This will create a mongo deployment, service, persistent volume claim and secret. There is also an option to set up mongo authentication for the server 
 
 4. **Create the frontend and backend**
+
 Now that we have the files mounted onto the persistent volume claim, we don't need to dummy pod anymore. We can delete the pod and create our frontend and backend deployments.
 
   ```bash
