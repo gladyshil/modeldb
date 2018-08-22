@@ -19,8 +19,6 @@ done
 
 # Substitute the desired MongoDB hostname in the built project's conf file.
 before="$PWD"
-
-cd /modeldb/server/codegen
 sed -i "s/MONGODB_HOST/$host/" /modeldb/reference.conf
 cd "$before"
 

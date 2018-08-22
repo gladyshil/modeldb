@@ -43,7 +43,6 @@ WORKDIR /modeldb/server/codegen
 # Build SQLite convenience methods and create SQLite databases.
 # Snippet from server/codegen/gen_sqlite.sh. This RUN should be removed once
 # SQLite is completely removed from ModelDB.
-
 RUN rm -rf jars/ && \
     rm -f sqlite/*jar && \
     mkdir -p jars && \
@@ -64,7 +63,6 @@ WORKDIR /modeldb/server
 RUN ../scripts/gen_thrift_file.sh java '../thrift/ModelDB.thrift' './src/main/thrift/' && \
     mvn clean compile -Dthrift_version=0.10.0
 
-
 RUN mvn package -Dthrift_version=${THRIFT_VERSION} -Dmaven.test.skip=true
 
 FROM openjdk:8
@@ -73,19 +71,21 @@ WORKDIR /modedlb/server
 
 EXPOSE 6543
 
-COPY --from=builder /modeldb/server/target/modeldb-*.jar /modeldb/modeldb.jar
-COPY --from=builder /modeldb/server/src/main/resources/reference-docker.conf /modeldb/reference.conf
-COPY --from=builder /modeldb/dockerbuild/wait_for_mongodb.sh /modeldb/wait_for_mongodb.sh
+
+COPY server/target/modeldb-*.jar /modeldb/modeldb.jar
+COPY server/src/main/resources/reference-docker.conf /modeldb/reference.conf
+COPY dockerbuild/wait_for_mongodb.sh /modeldb/wait_for_mongodb.sh
+
 
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6 && \
     echo 'deb http://httpredir.debian.org/debian jessie-backports main' > \
     /etc/apt/sources.list.d/backports.list && \
-    apt-get update && apt-get -y dist-upgrade && \
+   apt-get update && apt-get -y dist-upgrade && \
     echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-3.4.list && \
-    apt-get update && \
-    apt-get install -y \
-        sqlite \
-        mongodb-org-shell &&\
+#    apt-get update && \
+#    apt-get install -y \
+#        sqlite \
+#        mongodb-org-shell &&\
     apt-get clean
 
 WORKDIR /modeldb/server/codegen
