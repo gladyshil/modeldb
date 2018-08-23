@@ -12,6 +12,8 @@ services:
   backend:
     build:
       context: .
+      args:
+       - thrift_version=0.10.0
       dockerfile: dockerbuild/Dockerfile-backend
     image: mitdbg/modeldb-backend:latest
     networks:

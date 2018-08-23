@@ -30,6 +30,12 @@ It is also possible to run ModelDB in Docker without Docker Compose.
     docker build -t mitdbg/modeldb-frontend -f dockerbuild/Dockerfile-frontend .
     ```
 
+    If you would like to build ModelDB's backend Docker image with a different version of Thrift, build the image with a Docker ARG specified.
+
+    ```bash
+    docker build -t mitdbg/modeldb-backend --build-arg THRIFT_VERSION=[version_of_thrift] -f dockerbuild/Dockerfile-backend .
+    ``` 
+
 2. **Create a Docker network for ModelDB**
 
     Docker containers need a private network in order to find each other by name.
